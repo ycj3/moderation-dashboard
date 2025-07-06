@@ -5,7 +5,7 @@ import { callAzureModeration } from '/imports/api/moderation/methods';
 
 const jsonParser = bodyParser.json();
 
-WebApp.connectHandlers.use('/webhook', jsonParser, async (req, res) => {
+WebApp.connectHandlers.use('/webhook/moderate', jsonParser, async (req, res) => {
   if (req.method !== 'POST') {
     res.writeHead(405);
     res.end('Method Not Allowed');
@@ -13,6 +13,7 @@ WebApp.connectHandlers.use('/webhook', jsonParser, async (req, res) => {
   }
 
   try {
+    console.log("Received webhook:", req.body);
     const { msg_id, from, to, chat_type, payload } = req.body;
     const messageBody = payload?.bodies?.[0] || {};
     const content = messageBody.msg;
@@ -36,14 +37,15 @@ WebApp.connectHandlers.use('/webhook', jsonParser, async (req, res) => {
     });
 
     const response = {
-      result: 0,
+      valid: true,
       modify_msg: null,
       modify_ext: null,
     };
 
     const anyViolation = result?.categoriesAnalysis?.some(c => c.severity >= 2);
     if (anyViolation) {
-      response.result = 1;
+      response.valid = false;
+      response.code = "This message contains blocked content";
     }
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
