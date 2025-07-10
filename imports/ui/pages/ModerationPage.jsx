@@ -1,6 +1,7 @@
 import React from 'react';
 import AuditLogPage from './AuditLogPage';
 import BlockListPage from './BlocklistPage';
+import PoliciesPage from './PoliciesPage';
 
 export default function ModerationPage() {
   
@@ -34,6 +35,15 @@ export default function ModerationPage() {
                 <a
                   className="nav-link"
                   href="#"
+                  onClick={() => setActivePage('policies')}
+                >
+                  <span className="nav-link-title">Policies</span>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href="#"
                   onClick={() => setActivePage('logs')}
                 >
                   <span className="nav-link-title">Logs</span>
@@ -46,11 +56,6 @@ export default function ModerationPage() {
                   onClick={() => setActivePage('blocklist')}
                 >
                   <span className="nav-link-title">Block List</span>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  <span className="nav-link-title">Link 2</span>
                 </a>
               </li>
               <li className="nav-item">
@@ -100,6 +105,7 @@ export default function ModerationPage() {
               )}
               {activePage === 'logs' && <AuditLogPage />}
               {activePage === 'blocklist' && <BlockListPage />}
+              {activePage === 'policies' && <PoliciesPage />}
           </div>
         </div>
       </div>

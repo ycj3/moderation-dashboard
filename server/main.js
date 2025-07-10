@@ -3,6 +3,7 @@ import { Blocklist } from '/imports/api/blocklist/collection';
 import '/imports/api/blocklist/methods';
 import '/server/api/webhook.js';
 import { ModerateLogs } from '/imports/api/moderation/collection';
+import '/imports/api/moderation/methods';
 
 Meteor.publish('blocklist', function () {
   return Blocklist.find();
